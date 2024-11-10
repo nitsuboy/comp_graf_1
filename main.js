@@ -9,10 +9,10 @@ const renderer = new THREE.WebGLRenderer();
 const spotLight = new THREE.SpotLight( 0xffffff ,100);
 const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, .05 );
 
-const geometrye = new THREE.SphereGeometry(2,9,9);
-const geometryc = new THREE.SphereGeometry(2.1,9,9);
-const geometrym = new THREE.SphereGeometry(.1,9,9);
-const geometrys = new THREE.SphereGeometry(-50,9,9);
+const geometrye = new THREE.SphereGeometry(2,7,7);
+const geometryc = new THREE.SphereGeometry(2.1,7,7);
+const geometrym = new THREE.SphereGeometry(.1,5,5);
+const geometrys = new THREE.SphereGeometry(-50,4,4);
 
 const texturee = new THREE.TextureLoader().load( "2k_earth_daymap.png" );
 const texturec = new THREE.TextureLoader().load( "2k_earth_clouds.png" );
@@ -49,7 +49,7 @@ scene.add( stars );
 scene.add( spotLight );
 scene.add( light )
 
-camera.position.z = 10;
+camera.position.z = 7;
 moon.position.x = 4
 
 addEventListener("resize",(event) => {
@@ -103,20 +103,25 @@ function rotatePointXYZ(point, origin, rad) {
 }
 
 function animate() {
-    let r = rotatePointXYZ(moon.position,[0,0,0],[0,.01,.0])
+    let r = rotatePointXYZ(moon.position,[0,0,0],[-.01,.02,.0])
     let r2 = rotatePointXYZ(camera.position,[0,0,0],[0,mvx*.01,mvy*.01])
+    
     moon.position.x = r.x
     moon.position.y = r.y
     moon.position.z = r.z
+    moon.rotation.y -= 0.005;
+    
     earth.rotation.y -= 0.005;
     clouds.rotation.y -= 0.005;
-    moon.rotation.y -= 0.005;
     texturec.offset.x += 0.0005;
+    
     camera.position.y = r2.y
     camera.position.x = r2.x
     camera.position.z = r2.z
     camera.lookAt(0,0,0)
+    
     mvx = lerp(mvx,0,.1);
     mvy = lerp(mvy,0,.1);
+    
     renderer.render( scene, camera );
 }
